@@ -10,16 +10,21 @@
 
 int vector_init(vector *v) {
     v->size = 0;
+    v->data = NULL;
+
     return 1;
 }
 
-void vector_free(vector *v) {
-    free(v);
+void vector_clear(vector *v) {
+    free( v->data );
     v->size = 0;
 }
 
 int vector_push_back(vector *v, int data) {
     if( ( v->data = realloc( v->data, sizeof(int) * (v->size+1) ) ) == NULL ) {
+        free( v->data );
+        v->size = 0;
+
         return -1;
     }
 
@@ -34,7 +39,13 @@ int vector_pop_back(vector *v) {
 
     data = v->data[ v->size - 1 ];
 
-    v->data = realloc( v->data, sizeof(int) * (v->size-1) );
+    if( ( v->data = realloc( v->data, sizeof(int) * (v->size-1) ) ) == NULL ) {
+        free( v->data );
+        v->size = 0;
+
+        return -1;
+    }
+
     v->size--;
 
     return data;

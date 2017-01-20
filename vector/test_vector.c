@@ -13,6 +13,7 @@ int main(int argc, char const *argv[]) {
     vector_push_back(v, 14);
 
     printf("Size: %d\n", v->size);
+    
     vector_pop_back(v);
 
     printf("Size: %d\n", v->size);
@@ -21,7 +22,8 @@ int main(int argc, char const *argv[]) {
     for(i=0; i<v->size; i++)
         printf("%d\n", v->data[i]);
 
-    vector_free(v);
+    vector_clear(v);
+    free(v);
 
     return 0;
 }
